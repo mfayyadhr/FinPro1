@@ -1,25 +1,27 @@
 package com.example.demo.controller;
 
 import java.util.Map;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.service.NasabahService;
+import com.example.demo.service.AuthService;
 
 @RestController
 @RequestMapping("/")
 public class NasabahController {
     @Autowired
-    NasabahService nasabahService;
+    AuthService nasabahService;
 
     @PostMapping("/login")
-    public ResponseEntity<?>login(@RequestBody Map<String, String> body){
-        UUID company
+    public ResponseEntity<String>login(@RequestBody Map<String, String> body){
+        String companyId = body.get("companyId");
+        String employeeId = body.get("employeeId");
+        String password = body.get("password");
+
+        return new ResponseEntity<>(nasabahService.login(companyId, employeeId, password),HttpStatus.OK);
     }
 }

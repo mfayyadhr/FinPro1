@@ -20,7 +20,7 @@ import lombok.Setter;
 public class Nasabah {
     @NotBlank
     @Id
-    private UUID idNasabah;
+    private UUID employeeId;
     @NotBlank
     private UUID companyId;
     @NotBlank
