@@ -5,6 +5,7 @@ pipeline {
   environment {
     // --- Repo & layout ---
     REPO_URL      = 'https://github.com/mfayyadhr/FinPro1.git'
+    BRANCH       = 'main'                     // branch yang akan di-deploy
     PROJECT_DIR   = '.'                       // root project
     MANIFEST_FILE = 'test-deployment.yaml'    // path manifest yang di-apply
 
