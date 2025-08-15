@@ -1,0 +1,95 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-finpro-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev-finpro-backend
+  template:
+    metadata:
+      labels:
+        app: dev-finpro-backend
+    spec:
+      containers:
+        - name: dev-finpro-backend
+          image: megumismine/dev-finpro-backend:v2
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: SPRING_AUTOCONFIGURE_EXCLUDE
+              value: "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration"
+          ports:
+            - containerPort: 8080
+          # TCP probes (tanpa path)
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 25
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 50
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 6
+          resources:
+            requests:
+              memory: "300Mi"
+              cpu: "100m"
+            limits:
+              memory: "600Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-finpro-backend
+spec:
+  selector:
+    app: dev-finpro-backend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: dev-finpro-backend
+  annotations:
+    haproxy.router.openshift.io/timeout: 60000ms
+spec:
+  to:
+    kind: Service
+    name: dev-finpro-backend
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: dev-finpro-backend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: dev-finpro-backend
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
