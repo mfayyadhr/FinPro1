@@ -4,16 +4,15 @@ pipeline {
 
   environment {
     // --- Repo & layout ---
-    REPO_URL      = 'https://github.com/FinalProject-Kelompok1/Dev-FinPro-Backend.git'
-    BRANCH        = 'pipeline-test'
+    REPO_URL      = 'https://github.com/mfayyadhr/FinPro1.git'
     PROJECT_DIR   = '.'                       // root project
     MANIFEST_FILE = 'test-deployment.yaml'    // path manifest yang di-apply
 
     // --- Image & resource names ---
-    IMAGE_NAME  = 'megumismine/dev-finpro-backend'
+    IMAGE_NAME  = 'mfayyadhr/dev-finpro-backend'
     DEPLOY_NAME = 'dev-finpro-backend'
     ROUTE_NAME  = 'dev-finpro-backend'
-    OC_PROJECT  = 'megumismine-dev'           // namespace/project tujuan
+    OC_PROJECT  = 'rmuhammadfayyadh-dev'           // namespace/project tujuan
   }
 
   stages {
