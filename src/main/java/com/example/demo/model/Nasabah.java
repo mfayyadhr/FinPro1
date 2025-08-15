@@ -20,18 +20,22 @@ import lombok.Setter;
 public class Nasabah {
     @NotBlank
     @Id
-    private UUID employeeId;
+    private String NIK;
     @NotBlank
-    private String nama;
+    private String namaLengkap;
     @NotBlank
     private LocalDate tanggalLahir;
+    @NotBlank
+    private String tempatLahir;
     @Email
     @NotBlank
     private String email;
     @NotBlank
-    private String handphone;
+    private String nomorHp;
+    @NotBlank
+    private String namaIbuKandung;
     @NotBlank
     private String alamat;
     @NotBlank
-    private String password;
+    private boolean isActivated;
 }
