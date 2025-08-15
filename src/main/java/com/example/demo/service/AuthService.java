@@ -1,5 +1,4 @@
 package com.example.demo.service;
-import java.lang.StackWalker.Option;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,19 +18,17 @@ public class AuthService {
         this.redisTemplate = redisTemplate;
     }
 
-    public String login(String companyIdStr, String employeeIdStr, String password) {
+    public String login(String employeeIdStr, String password) {
         // Konversi String ke UUID
-        Optional<UUID> companyIdOpt = nasabahRepository.convertToUUID(companyIdStr);
         Optional<UUID> employeeIdOpt = nasabahRepository.convertToUUID(employeeIdStr);
         
         // Validasi konversi UUID
-        if (companyIdOpt.isEmpty() || employeeIdOpt.isEmpty()) {
+        if (employeeIdOpt.isEmpty()) {
             return "Format UUID tidak valid";
         }
         
         // Cari nasabah
-        Nasabah nasabah = nasabahRepository.findByCompanyIdAndEmployeeId(
-            companyIdOpt.get(), 
+        Nasabah nasabah = nasabahRepository.findByEmployeeId( 
             employeeIdOpt.get()
         );
         
@@ -43,9 +40,10 @@ public class AuthService {
         return "Login berhasil";
     }
 
-    public aktifasi(String employeeId, String atmreceipt, String pinatm){
-        Optional<UUID> optionemployeeid = nasabahRepository.convertToUUID(employeeId);
-
-        String storedAtmReceipt = redi
+    public String getPinAtm(String customerId){
+        return redisTemplate.opsForValue().get("pinatm:"+customerId);
+    }
+    public String getAtmReceipt(String customerId){
+        return redisTemplate.opsForValue().get("atmreceipt:"+customerId);
     }
 }

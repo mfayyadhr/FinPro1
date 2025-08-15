@@ -9,7 +9,7 @@ import com.example.demo.model.Nasabah;
 
 @Repository("repo")
 public interface NasabahRepository extends JpaRepository<Nasabah, UUID> {
-    Nasabah findByCompanyIdAndEmployeeId(UUID companyId, UUID employeeId);
+    Nasabah findByEmployeeId(UUID companyId);
     
     // Ubah return type menjadi Optional<UUID>
     default Optional<UUID> convertToUUID(String uuidString) {

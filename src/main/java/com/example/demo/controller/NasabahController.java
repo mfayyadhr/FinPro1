@@ -18,10 +18,12 @@ public class NasabahController {
 
     @PostMapping("/login")
     public ResponseEntity<String>login(@RequestBody Map<String, String> body){
-        String companyId = body.get("companyId");
         String employeeId = body.get("employeeId");
         String password = body.get("password");
 
-        return new ResponseEntity<>(nasabahService.login(companyId, employeeId, password),HttpStatus.OK);
+        return new ResponseEntity<>(nasabahService.login(employeeId, password),HttpStatus.OK);
     }
+
+    @PostMapping("/aktivasi")
+    public ResponseEntity<>
 }

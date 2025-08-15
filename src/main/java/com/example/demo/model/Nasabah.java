@@ -22,8 +22,6 @@ public class Nasabah {
     @Id
     private UUID employeeId;
     @NotBlank
-    private UUID companyId;
-    @NotBlank
     private String nama;
     @NotBlank
     private LocalDate tanggalLahir;
